@@ -1,1 +1,12 @@
-rootProject.name = "kotlin-gradle-starter-jdk21"
+rootProject.name = "game-backlog-tracker"
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        create("exposedLibs") {
+            from("org.jetbrains.exposed:exposed-version-catalog:1.6.1")
+        }
+    }
+}
