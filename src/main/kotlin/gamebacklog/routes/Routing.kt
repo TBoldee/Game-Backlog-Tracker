@@ -35,74 +35,38 @@ fun Application.configureRouting(gameService: GameService, playthroughService: P
             }
 
             post {
-                try {
-                    val request = call.receive<GameCreateRequest>()
-                    gameService.addGame(request)
+                val request = call.receive<GameCreateRequest>()
+                gameService.addGame(request)
 
-                    call.respond(HttpStatusCode.Created)
-                } catch (e: IllegalArgumentException) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "",)
-                    return@post
-                } catch (e: BadRequestException) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "",)
-                    return@post
-                } catch (e: Exception) {
-                    println(e::class.qualifiedName)
-                    call.respond(HttpStatusCode.InternalServerError, e.message ?: "")
-                    return@post
-                }
+                call.respond(HttpStatusCode.Created)
             }
         }
 
         route("/games/{gameId}") {
             get {
-                try {
-                    val gameId = call.getIntParameter("gameId")
+                val gameId = call.getIntParameter("gameId")
 
-                    val game = gameService.getGame(gameId)
+                val game = gameService.getGame(gameId)
 
-                    call.respond(HttpStatusCode.OK, game)
-                } catch (e: BadRequestException) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "")
-                    return@get
-                } catch (e: NotFoundException) {
-                    call.respond(HttpStatusCode.NotFound, e.message ?: "")
-                    return@get
-                }
+                call.respond(HttpStatusCode.OK, game)
             }
 
             patch {
-                try {
-                    val updatedGame = call.receive<GameUpdateRequest>()
+                val updatedGame = call.receive<GameUpdateRequest>()
 
-                    val gameId = call.getIntParameter("gameId")
+                val gameId = call.getIntParameter("gameId")
 
-                    gameService.updateGame(updatedGame, gameId)
+                gameService.updateGame(updatedGame, gameId)
 
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (e: BadRequestException) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "")
-                    return@patch
-                } catch (e: NotFoundException) {
-                    call.respond(HttpStatusCode.NotFound, e.message ?: "")
-                    return@patch
-                }
+                call.respond(HttpStatusCode.NoContent)
             }
 
             delete {
-                try {
-                    val gameId = call.getIntParameter("gameId")
+                val gameId = call.getIntParameter("gameId")
 
-                    gameService.deleteGame(gameId)
+                gameService.deleteGame(gameId)
 
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (e: BadRequestException) {
-                    call.respond(HttpStatusCode.BadRequest, e.message ?: "")
-                    return@delete
-                } catch (e: NotFoundException) {
-                    call.respond(HttpStatusCode.NotFound, e.message ?: "")
-                    return@delete
-                }
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }

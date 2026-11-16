@@ -16,5 +16,6 @@ fun Application.rootModule() {
     val playthroughService = PlaythroughService(playthroughRepository)
 
     configureSerialization()
+    installStatusPages()
     configureRouting(gameService, playthroughService)
 }
