@@ -3,11 +3,13 @@ package gamebacklog.repositories
 import gamebacklog.database.entities.Game
 import gamebacklog.database.entities.Playthrough
 import gamebacklog.database.tables.Playthroughs
+import gamebacklog.model.GameResponse
 import gamebacklog.model.PlaythroughCreateRequest
 import gamebacklog.model.PlaythroughResponse
 import gamebacklog.model.PlaythroughUpdateRequest
 import gamebacklog.model.toResponse
 import gamebacklog.model.withTransaction
+import io.ktor.server.plugins.NotFoundException
 import org.jetbrains.exposed.v1.core.eq
 
 class PlaythroughRepository : PlaythroughRepositoryInterface {
@@ -29,10 +31,12 @@ class PlaythroughRepository : PlaythroughRepositoryInterface {
         }
     }
 
-    override suspend fun addPlaythrough(playthrough: PlaythroughCreateRequest, game: Game) {
+    override suspend fun addPlaythrough(playthrough: PlaythroughCreateRequest, game: GameResponse) {
         return withTransaction {
+            val gameEntity = Game.findById(game.id) ?: throw NotFoundException("Game not found")
+
             Playthrough.new {
-                game_id = game.id
+                game_id = gameEntity.id
                 status = playthrough.status
             }
         }
