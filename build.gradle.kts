@@ -11,12 +11,13 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:3.6.1")
     implementation("io.ktor:ktor-server-status-pages:3.6.1")
-    val ktorVersion = "3.3.3"
+    implementation("io.ktor:ktor-server-swagger:3.6.1")
+    implementation("io.ktor:ktor-server-routing-openapi:3.6.1")
 
-    implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-core-jvm:3.6.1")
     implementation("io.ktor:ktor-server-netty-jvm:3.6.1")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:3.6.1")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:3.6.1")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     implementation(exposedLibs.core)

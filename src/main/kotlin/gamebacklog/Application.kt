@@ -13,7 +13,7 @@ fun Application.rootModule() {
     val gameService = GameService(gameRepository)
 
     val playthroughRepository = PlaythroughRepository()
-    val playthroughService = PlaythroughService(playthroughRepository)
+    val playthroughService = PlaythroughService(playthroughRepository, gameRepository)
 
     configureSerialization()
     installStatusPages()

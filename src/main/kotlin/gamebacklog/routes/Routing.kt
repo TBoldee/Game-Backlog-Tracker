@@ -9,6 +9,7 @@ import gamebacklog.services.PlaythroughService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.plugins.BadRequestException
+import io.ktor.server.plugins.swagger.swaggerUI
 import io.ktor.server.response.respond
 import io.ktor.server.request.receive
 import io.ktor.server.routing.RoutingCall
@@ -25,6 +26,11 @@ fun Application.configureRouting(gameService: GameService, playthroughService: P
     }
 
     routing {
+        swaggerUI (
+            path = "swagger",
+            swaggerFile = "openapi/documentation.yaml"
+        )
+
         route("/games") {
             get {
                 val games = gameService.getAllGames()
