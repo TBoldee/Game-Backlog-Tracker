@@ -8,6 +8,6 @@ import org.jetbrains.exposed.v1.dao.IntEntityClass
 class Playthrough(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<Playthrough>(Playthroughs);
 
-    val game_id by Playthroughs.game_id;
-    val status by Playthroughs.status;
+    var game_id by Playthroughs.game_id;
+    var status by Playthroughs.status;
 }
