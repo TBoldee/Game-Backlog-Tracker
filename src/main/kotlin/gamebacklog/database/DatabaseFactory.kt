@@ -11,7 +11,13 @@ object DatabaseFactory {
     fun init() {
         File("./data").mkdirs()
 
-        Database.Companion.connect("jdbc:sqlite:./data/data.db", "org.sqlite.JDBC");
+        Database.connect(
+            "jdbc:sqlite:./data/data.db",
+            "org.sqlite.JDBC",
+            setupConnection = { connection ->
+                connection.createStatement().execute("PRAGMA foreign_keys = ON")
+            }
+        );
 
         transaction {
             SchemaUtils.create(Games, Playthroughs);

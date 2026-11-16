@@ -1,7 +1,6 @@
 package gamebacklog.services
 
 import gamebacklog.model.DuplicatePlaythroughException
-import gamebacklog.model.GameResponse
 import gamebacklog.model.PlaythroughCreateRequest
 import gamebacklog.model.PlaythroughResponse
 import gamebacklog.model.PlaythroughStatus
@@ -22,8 +21,8 @@ class PlaythroughService (
         return playthroughRepository.getPlaythrough(id) ?: throw NotFoundException("Playthrough not found")
     }
 
-    suspend fun getPlaythroughByGameId(gameId: Int): PlaythroughResponse {
-        return playthroughRepository.getPlaythroughByGameId(gameId) ?: throw NotFoundException("Playthrough not found")
+    suspend fun getPlaythroughsByGameId(gameId: Int): List<PlaythroughResponse> {
+        return playthroughRepository.getPlaythroughsByGameId(gameId)
     }
 
     suspend fun addPlaythrough(playthrough: PlaythroughCreateRequest) {
@@ -37,8 +36,8 @@ class PlaythroughService (
             else -> null
         } ?: throw NotFoundException("Game not found")
 
-        val existingPlaythrough = playthroughRepository.getPlaythroughByGameId(referencedGame.id)
-        if (existingPlaythrough != null && existingPlaythrough.status != PlaythroughStatus.DONE) {
+        val existingPlaythroughs = playthroughRepository.getPlaythroughsByGameId(referencedGame.id)
+        if (existingPlaythroughs.any { it.status == PlaythroughStatus.IN_PROGRESS }) {
             throw DuplicatePlaythroughException("Playthrough already in progress. Finish it, or set it to aborted to start another")
         }
 

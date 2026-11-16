@@ -25,9 +25,9 @@ class PlaythroughRepository : PlaythroughRepositoryInterface {
         }
     }
 
-    override suspend fun getPlaythroughByGameId(gameId: Int): PlaythroughResponse? {
+    override suspend fun getPlaythroughsByGameId(gameId: Int): List<PlaythroughResponse> {
         return withTransaction {
-            Playthrough.find { Playthroughs.game_id eq gameId }.firstOrNull()?.toResponse()
+            Playthrough.find { Playthroughs.game_id eq gameId } .map { it.toResponse() }
         }
     }
 

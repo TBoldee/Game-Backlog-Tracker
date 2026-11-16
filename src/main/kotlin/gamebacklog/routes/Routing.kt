@@ -73,7 +73,7 @@ fun Application.configureRouting(gameService: GameService, playthroughService: P
     }
 
     routing {
-        route("/playthrough") {
+        route("/playthroughs") {
             get {
                 val playthroughs = playthroughService.getAllPlaythroughs()
 
