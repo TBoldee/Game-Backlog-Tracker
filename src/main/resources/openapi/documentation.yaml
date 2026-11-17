@@ -49,6 +49,12 @@ paths:
           schema:
             type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
@@ -70,6 +76,12 @@ paths:
           schema:
             type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
@@ -97,6 +109,12 @@ paths:
               $ref: "#/components/schemas/GameUpdateRequest"
         required: true
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
@@ -152,6 +170,12 @@ paths:
           schema:
             type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
@@ -173,6 +197,12 @@ paths:
           schema:
             type: "string"
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
@@ -200,6 +230,12 @@ paths:
               $ref: "#/components/schemas/PlaythroughUpdateRequest"
         required: true
       responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                type: "string"
         "404":
           description: "Not Found"
           content:
