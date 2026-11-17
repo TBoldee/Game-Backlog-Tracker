@@ -2,13 +2,18 @@ package gamebacklog.routes
 
 import gamebacklog.services.GameService
 import gamebacklog.services.PlaythroughService
+import gamebacklog.services.StatisticsService
 import io.ktor.server.application.Application
 import io.ktor.server.plugins.BadRequestException
 import io.ktor.server.plugins.swagger.swaggerUI
 import io.ktor.server.routing.RoutingCall
 import io.ktor.server.routing.routing
 
-fun Application.configureRouting(gameService: GameService, playthroughService: PlaythroughService) {
+fun Application.configureRouting(
+    gameService: GameService,
+    playthroughService: PlaythroughService,
+    statisticsService: StatisticsService,
+) {
     routing {
         swaggerUI (
             path = "swagger",
@@ -17,6 +22,7 @@ fun Application.configureRouting(gameService: GameService, playthroughService: P
 
         gameRoutes(gameService)
         playthroughRoutes(playthroughService)
+        statisticsRoutes(statisticsService)
     }
 }
 

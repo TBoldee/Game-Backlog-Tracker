@@ -38,5 +38,12 @@ fun Application.installStatusPages() {
                 cause.message ?: "Bad Request"
             )
         }
+
+        exception<NoSuchElementException> { call, cause ->
+            call.respond(
+                HttpStatusCode.NotFound,
+                cause.message ?: "Something went wrong finding the game for playthrough"
+            )
+        }
     }
 }

@@ -12,4 +12,5 @@ interface PlaythroughRepositoryInterface {
     suspend fun addPlaythrough(playthrough: PlaythroughCreateRequest, game: GameResponse)
     suspend fun updatePlaythrough(playthrough: PlaythroughUpdateRequest, id: Int)
     suspend fun deletePlaythrough(id: Int)
+    suspend fun getAllDonePlaythroughs(): List<PlaythroughResponse>
 }

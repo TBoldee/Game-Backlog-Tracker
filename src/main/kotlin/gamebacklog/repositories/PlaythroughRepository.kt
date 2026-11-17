@@ -6,6 +6,7 @@ import gamebacklog.database.tables.Playthroughs
 import gamebacklog.model.GameResponse
 import gamebacklog.model.PlaythroughCreateRequest
 import gamebacklog.model.PlaythroughResponse
+import gamebacklog.model.PlaythroughStatus
 import gamebacklog.model.PlaythroughUpdateRequest
 import gamebacklog.model.toResponse
 import gamebacklog.model.withTransaction
@@ -22,6 +23,12 @@ class PlaythroughRepository : PlaythroughRepositoryInterface {
     override suspend fun getPlaythrough(id: Int): PlaythroughResponse? {
         return withTransaction {
             Playthrough.findById(id)?.toResponse()
+        }
+    }
+
+    override suspend fun getAllDonePlaythroughs(): List<PlaythroughResponse> {
+        return withTransaction {
+            Playthrough.find { Playthroughs.status eq PlaythroughStatus.DONE }.map { it.toResponse() }
         }
     }
 

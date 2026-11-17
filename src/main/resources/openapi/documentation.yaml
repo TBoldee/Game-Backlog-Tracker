@@ -248,6 +248,22 @@ paths:
             '*/*':
               schema:
                 type: "object"
+  /statistics:
+    get:
+      description: ""
+      responses:
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GenericStatisticsResponse"
 components:
   schemas:
     GameResponse:
@@ -417,3 +433,42 @@ components:
             - "IN_PROGRESS"
             - "DONE"
             - "ABORTED"
+    GenericStatisticsResponse:
+      type: "object"
+      properties:
+        totalPlaythroughs:
+          type: "integer"
+          format: "int32"
+        completedPlaythroughs:
+          type: "integer"
+          format: "int32"
+        totalPlaytime:
+          type: "integer"
+          format: "int32"
+        averagePlaytime:
+          type: "number"
+          format: "double"
+        genreDistribution:
+          type: "string"
+          enum:
+            - "ACTION"
+            - "ADVENTURE"
+            - "RPG"
+            - "JRPG"
+            - "MMORPG"
+            - "FPS"
+            - "TPS"
+            - "RTS"
+            - "STRATEGY"
+            - "SIMULATION"
+            - "PUZZLE"
+            - "PLATFORMER"
+            - "HORROR"
+            - "RACING"
+            - "SPORTS"
+      required:
+        - "totalPlaythroughs"
+        - "completedPlaythroughs"
+        - "totalPlaytime"
+        - "averagePlaytime"
+        - "genreDistribution"
