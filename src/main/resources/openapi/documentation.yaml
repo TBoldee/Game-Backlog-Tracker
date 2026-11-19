@@ -9,6 +9,17 @@ paths:
   /games:
     get:
       description: ""
+      parameters:
+        - name: "orderBy"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "order"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
       responses:
         "200":
           description: "OK"

@@ -1,6 +1,8 @@
 package gamebacklog.services
 
+import gamebacklog.model.GameSortEnum
 import gamebacklog.model.GenericStatisticsResponse
+import gamebacklog.model.SortOrderEnum
 import gamebacklog.repositories.GameRepository
 import gamebacklog.repositories.PlaythroughRepository
 
@@ -14,7 +16,7 @@ class StatisticsService (
         val donePlaythroughs = playthroughRepository.getAllDonePlaythroughs()
         val completedPlaythroughs = donePlaythroughs.size
 
-        val allGames = gameRepository.getAllGames()
+        val allGames = gameRepository.getAllGames(GameSortEnum.ID, SortOrderEnum.ASC)
         val gamesById = allGames.associateBy { it.id }
 
         val totalPlaytime = donePlaythroughs.sumOf { playthrough ->

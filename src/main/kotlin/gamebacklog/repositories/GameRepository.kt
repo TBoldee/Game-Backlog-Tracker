@@ -4,15 +4,30 @@ import gamebacklog.database.entities.Game
 import gamebacklog.database.tables.Games
 import gamebacklog.model.GameCreateRequest
 import gamebacklog.model.GameResponse
+import gamebacklog.model.GameSortEnum
 import gamebacklog.model.GameUpdateRequest
+import gamebacklog.model.SortOrderEnum
 import gamebacklog.model.toResponse
 import gamebacklog.model.withTransaction
+import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 
 class GameRepository : GameRepositoryInterface {
-    override suspend fun getAllGames(): List<GameResponse> {
+    override suspend fun getAllGames(orderByColumn: GameSortEnum, order: SortOrderEnum): List<GameResponse> {
         return withTransaction {
-            Game.all().map { it.toResponse() }
+            val column = when (orderByColumn) {
+                GameSortEnum.ID -> Games.id
+                GameSortEnum.NAME -> Games.name
+                GameSortEnum.GENRE -> Games.genre
+                GameSortEnum.PLAYTIME -> Games.gametime
+            }
+
+            val sortOrder = when (order) {
+                SortOrderEnum.ASC -> SortOrder.ASC
+                SortOrderEnum.DESC -> SortOrder.DESC
+            }
+
+            Game.all().orderBy(column to sortOrder).map { it.toResponse() }
         }
     }
 

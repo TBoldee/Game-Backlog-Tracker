@@ -1,6 +1,7 @@
 package gamebacklog.routes
 
 import gamebacklog.services.StatisticsService
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
@@ -12,7 +13,7 @@ fun Route.statisticsRoutes (
     route("/statistics") {
         get {
             val stats = statisticsService.getGenericStatistics()
-            call.respond(stats)
+            call.respond(HttpStatusCode.OK, stats)
         }
     }
 }

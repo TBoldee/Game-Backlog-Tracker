@@ -3,15 +3,17 @@ package gamebacklog.services
 import gamebacklog.model.DuplicateGameException
 import gamebacklog.model.GameCreateRequest
 import gamebacklog.model.GameResponse
+import gamebacklog.model.GameSortEnum
 import gamebacklog.model.GameUpdateRequest
+import gamebacklog.model.SortOrderEnum
 import gamebacklog.repositories.GameRepositoryInterface
 import io.ktor.server.plugins.NotFoundException
 
 class GameService(
     private val gameRepository: GameRepositoryInterface,
 ) {
-    suspend fun getAllGames(): List<GameResponse> {
-        return gameRepository.getAllGames()
+    suspend fun getAllGames(orderByColumn: GameSortEnum, order: SortOrderEnum): List<GameResponse> {
+        return gameRepository.getAllGames(orderByColumn, order)
     }
 
     suspend fun getGame(id: Int): GameResponse {

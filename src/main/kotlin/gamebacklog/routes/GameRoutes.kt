@@ -1,8 +1,11 @@
 package gamebacklog.routes
 
 import gamebacklog.model.GameCreateRequest
+import gamebacklog.model.GameSortEnum
 import gamebacklog.model.GameUpdateRequest
+import gamebacklog.model.SortOrderEnum
 import gamebacklog.services.GameService
+import gamebacklog.util.toEnumOrNull
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
@@ -18,7 +21,10 @@ fun Route.gameRoutes (
 ) {
     route("/games") {
         get {
-            val games = gameService.getAllGames()
+            val orderByColumn = call.request.queryParameters["orderBy"]?.toEnumOrNull() ?: GameSortEnum.ID
+            val order = call.request.queryParameters["order"]?.toEnumOrNull() ?: SortOrderEnum.ASC
+
+            val games = gameService.getAllGames(orderByColumn, order)
 
             call.respond(HttpStatusCode.OK, games)
         }
