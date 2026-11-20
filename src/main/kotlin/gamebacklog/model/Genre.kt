@@ -18,5 +18,8 @@ enum class Genre {
     PLATFORMER,
     HORROR,
     RACING,
-    SPORTS
+    SPORTS,
+    METROIDVANIA,
+    SOULSLIKE,
+    INCREMENTAL
 }

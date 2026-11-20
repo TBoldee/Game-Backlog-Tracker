@@ -26,9 +26,9 @@ class PlaythroughRepository : PlaythroughRepositoryInterface {
         }
     }
 
-    override suspend fun getAllDonePlaythroughs(): List<PlaythroughResponse> {
+    override suspend fun getAllPlaythroughsByStatus(status: PlaythroughStatus): List<PlaythroughResponse> {
         return withTransaction {
-            Playthrough.find { Playthroughs.status eq PlaythroughStatus.DONE }.map { it.toResponse() }
+            Playthrough.find { Playthroughs.status eq status }.map { it.toResponse() }
         }
     }
 

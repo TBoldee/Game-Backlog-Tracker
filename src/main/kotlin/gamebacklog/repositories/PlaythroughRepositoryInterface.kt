@@ -3,6 +3,7 @@ package gamebacklog.repositories
 import gamebacklog.model.GameResponse
 import gamebacklog.model.PlaythroughCreateRequest
 import gamebacklog.model.PlaythroughResponse
+import gamebacklog.model.PlaythroughStatus
 import gamebacklog.model.PlaythroughUpdateRequest
 
 interface PlaythroughRepositoryInterface {
@@ -12,5 +13,5 @@ interface PlaythroughRepositoryInterface {
     suspend fun addPlaythrough(playthrough: PlaythroughCreateRequest, game: GameResponse)
     suspend fun updatePlaythrough(playthrough: PlaythroughUpdateRequest, id: Int)
     suspend fun deletePlaythrough(id: Int)
-    suspend fun getAllDonePlaythroughs(): List<PlaythroughResponse>
+    suspend fun getAllPlaythroughsByStatus(status: PlaythroughStatus): List<PlaythroughResponse>
 }

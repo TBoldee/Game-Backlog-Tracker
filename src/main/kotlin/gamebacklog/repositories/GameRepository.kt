@@ -13,13 +13,16 @@ import org.jetbrains.exposed.v1.core.SortOrder
 import org.jetbrains.exposed.v1.core.eq
 
 class GameRepository : GameRepositoryInterface {
-    override suspend fun getAllGames(orderByColumn: GameSortEnum, order: SortOrderEnum): List<GameResponse> {
+    override suspend fun getAllGames(
+        orderByColumn: GameSortEnum,
+        order: SortOrderEnum,
+    ): List<GameResponse> {
         return withTransaction {
             val column = when (orderByColumn) {
                 GameSortEnum.ID -> Games.id
                 GameSortEnum.NAME -> Games.name
                 GameSortEnum.GENRE -> Games.genre
-                GameSortEnum.PLAYTIME -> Games.gametime
+                GameSortEnum.GAMETIME -> Games.gametime
             }
 
             val sortOrder = when (order) {

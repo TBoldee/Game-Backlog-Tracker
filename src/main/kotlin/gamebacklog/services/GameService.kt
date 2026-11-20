@@ -41,6 +41,7 @@ class GameService(
         require(game.name == null || game.name.isNotBlank()) { "Game name cannot be blank" }
         require(game.gameTime == null || game.gameTime > 0) { "Game time must be greater than 0" }
         if (gameRepository.getGame(id) == null) throw NotFoundException("Game not found")
+        if (game.name?.let { gameRepository.getGameByName(it) } != null) throw DuplicateGameException("Game already exists")
 
         gameRepository.updateGame(game, id)
     }

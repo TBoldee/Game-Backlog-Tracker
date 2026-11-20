@@ -5,10 +5,21 @@ info:
   version: "1.0.0"
 servers:
   - url: /
+
+tags:
+  - name: Games
+    description: Operations related to games
+  - name: Playthroughs
+    description: Operations related to playthroughs
+  - name: Statistics
+    description: Statistics and summaries
+
 paths:
   /games:
     get:
-      description: ""
+      tags:
+        - Games
+      description: "Returns all games."
       parameters:
         - name: "orderBy"
           in: "query"
@@ -30,7 +41,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/GameResponse"
     post:
-      description: ""
+      tags:
+        - Games
+      description: "Creates a game, as long as it's not a duplicate."
       requestBody:
         content:
           application/json:
@@ -52,7 +65,9 @@ paths:
                 type: "object"
   /games/{gameId}:
     delete:
-      description: ""
+      tags:
+        - Games
+      description: "Deletes the game corresponding to the id. Also deletes all playthroughs referencing the game."
       parameters:
         - name: "gameId"
           in: "path"
@@ -79,7 +94,9 @@ paths:
               schema:
                 type: "object"
     get:
-      description: ""
+      tags:
+        - Games
+      description: "Returns the game corresponding to the id."
       parameters:
         - name: "gameId"
           in: "path"
@@ -106,7 +123,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/GameResponse"
     patch:
-      description: ""
+      tags:
+        - Games
+      description: "Updates the game's data. "
       parameters:
         - name: "gameId"
           in: "path"
@@ -140,7 +159,9 @@ paths:
                 type: "object"
   /playthroughs:
     get:
-      description: ""
+      tags:
+        - Playthroughs
+      description: "Returns all playthroughs."
       responses:
         "200":
           description: "OK"
@@ -151,7 +172,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/PlaythroughResponse"
     post:
-      description: ""
+      tags:
+        - Playthroughs
+      description: "Creates a new playthrough, granted there isn't one already in progress for that game. Only provide gameId or game name, not both."
       requestBody:
         content:
           application/json:
@@ -173,7 +196,9 @@ paths:
                 type: "object"
   /playthroughs/{playthroughId}:
     delete:
-      description: ""
+      tags:
+        - Playthroughs
+      description: "Deletes the playthrough corresponding to the id."
       parameters:
         - name: "playthroughId"
           in: "path"
@@ -200,7 +225,9 @@ paths:
               schema:
                 type: "object"
     get:
-      description: ""
+      tags:
+        - Playthroughs
+      description: "Returns the playthrough corresponding to the id."
       parameters:
         - name: "playthroughId"
           in: "path"
@@ -227,7 +254,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaythroughResponse"
     patch:
-      description: ""
+      tags:
+        - Playthroughs
+      description: "Updates the playthrough's status."
       parameters:
         - name: "playthroughId"
           in: "path"
@@ -261,7 +290,9 @@ paths:
                 type: "object"
   /statistics:
     get:
-      description: ""
+      tags:
+        - Statistics
+      description: "Gets general statistics based on the data: Total and completed playthroughs, total and average playtime, and total games in the tracker for each genre."
       responses:
         "404":
           description: "Not Found"
@@ -275,6 +306,76 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/GenericStatisticsResponse"
+  /statistics/games/top-three-by-playthroughs:
+    get:
+      tags:
+        - Statistics
+      description: "Returns the top three games measured by playthrough count."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GameWithPlaythroughCountResponse"
+  /statistics/games/with-playthroughs-in-progress:
+    get:
+      tags:
+        - Statistics
+      description: "Returns the games with playthroughs in progress."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GameResponse"
+  /statistics/games/without-playthroughs:
+    get:
+      tags:
+        - Statistics
+      description: "Returns games that have no playthroughs. Games with aborted playthroughs are not returned."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GameResponse"
+  /statistics/games/beaten:
+    get:
+      tags:
+        - Statistics
+      description: "Returns all games that have a completed playthrough."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GameResponse"
+  /statistics/playthroughs/breakdown:
+    get:
+      tags:
+        - Statistics
+      description: "Returns a breakdown per genre about how many playthroughs are there corresponding to them, further broken down by status."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/PlaythroughStatusByGenreResponse"
 components:
   schemas:
     GameResponse:
@@ -311,6 +412,9 @@ components:
             - "HORROR"
             - "RACING"
             - "SPORTS"
+            - "METROIDVANIA"
+            - "SOULSLIKE"
+            - "INCREMENTAL"
         gameTime:
           type: "integer"
           format: "int32"
@@ -351,6 +455,9 @@ components:
             - "HORROR"
             - "RACING"
             - "SPORTS"
+            - "METROIDVANIA"
+            - "SOULSLIKE"
+            - "INCREMENTAL"
         gameTime:
           type: "integer"
           format: "int32"
@@ -393,6 +500,9 @@ components:
             - "HORROR"
             - "RACING"
             - "SPORTS"
+            - "METROIDVANIA"
+            - "SOULSLIKE"
+            - "INCREMENTAL"
         gameTime:
           type: "integer"
           format: "int32"
@@ -444,6 +554,17 @@ components:
             - "IN_PROGRESS"
             - "DONE"
             - "ABORTED"
+    GenreCountResponse:
+      type: "object"
+      properties:
+        genre:
+          type: "string"
+        count:
+          type: "integer"
+          format: "int32"
+      required:
+        - "genre"
+        - "count"
     GenericStatisticsResponse:
       type: "object"
       properties:
@@ -460,6 +581,32 @@ components:
           type: "number"
           format: "double"
         genreDistribution:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/GenreCountResponse"
+      required:
+        - "totalPlaythroughs"
+        - "completedPlaythroughs"
+        - "totalPlaytime"
+        - "averagePlaytime"
+        - "genreDistribution"
+    GameWithPlaythroughCountResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        name:
+          type: "string"
+        platform:
+          type: "string"
+          enum:
+            - "PC"
+            - "XBOX"
+            - "PLAYSTATION"
+            - "NINTENDO_SWITCH"
+            - "MOBILE"
+        genre:
           type: "string"
           enum:
             - "ACTION"
@@ -477,9 +624,61 @@ components:
             - "HORROR"
             - "RACING"
             - "SPORTS"
+            - "METROIDVANIA"
+            - "SOULSLIKE"
+            - "INCREMENTAL"
+        gameTime:
+          type: "integer"
+          format: "int32"
+        playthroughCount:
+          type: "integer"
+          format: "int32"
       required:
-        - "totalPlaythroughs"
-        - "completedPlaythroughs"
-        - "totalPlaytime"
-        - "averagePlaytime"
-        - "genreDistribution"
+        - "id"
+        - "name"
+        - "platform"
+        - "genre"
+        - "gameTime"
+        - "playthroughCount"
+    PlaythroughStatusByGenreResponse:
+      type: "object"
+      properties:
+        genre:
+          type: "string"
+          enum:
+            - "ACTION"
+            - "ADVENTURE"
+            - "RPG"
+            - "JRPG"
+            - "MMORPG"
+            - "FPS"
+            - "TPS"
+            - "RTS"
+            - "STRATEGY"
+            - "SIMULATION"
+            - "PUZZLE"
+            - "PLATFORMER"
+            - "HORROR"
+            - "RACING"
+            - "SPORTS"
+            - "METROIDVANIA"
+            - "SOULSLIKE"
+            - "INCREMENTAL"
+        done:
+          type: "integer"
+          format: "int32"
+        inProgress:
+          type: "integer"
+          format: "int32"
+        aborted:
+          type: "integer"
+          format: "int32"
+        total:
+          type: "integer"
+          format: "int32"
+      required:
+        - "genre"
+        - "done"
+        - "inProgress"
+        - "aborted"
+        - "total"

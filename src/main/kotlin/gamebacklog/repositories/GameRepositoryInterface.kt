@@ -7,7 +7,7 @@ import gamebacklog.model.GameUpdateRequest
 import gamebacklog.model.SortOrderEnum
 
 interface GameRepositoryInterface {
-    suspend fun getAllGames(orderByColumn: GameSortEnum, order: SortOrderEnum): List<GameResponse>
+    suspend fun getAllGames(orderByColumn: GameSortEnum = GameSortEnum.ID, order: SortOrderEnum = SortOrderEnum.ASC): List<GameResponse>
     suspend fun getGame(id: Int): GameResponse?
     suspend fun getGameByName(name: String): GameResponse?
     suspend fun addGame(game: GameCreateRequest)
